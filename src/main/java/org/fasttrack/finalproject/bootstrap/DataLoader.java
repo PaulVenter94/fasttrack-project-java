@@ -56,7 +56,7 @@ public class DataLoader implements CommandLineRunner {
         vetService.add(new Vet("John", "Cena", 34, "Dermatology"));
         System.out.println("Vets loaded");
 
-        petService.getAll().forEach(pet -> petService.addVisit(pet.getId(), new Visit(LocalDateTime.now(), pet)));
+        petService.getAll().forEach(pet -> petService.addVisit(pet.getId(), new Visit(LocalDateTime.of(2020, 05, 12, 13,0), pet)));
         System.out.println(petService.getAll());
         System.out.println(visitService.getAll());
         System.out.println("Visits Loaded");

@@ -1,6 +1,8 @@
 package org.fasttrack.finalproject.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.List;
@@ -11,7 +13,6 @@ public class Pet {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
-    @JsonIgnore
     @ManyToOne
     private Owner owner;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy = "pet")
@@ -44,7 +45,7 @@ public class Pet {
     public void setName(String name) {
         this.name = name;
     }
-
+    @JsonBackReference
     public Owner getOwner() {
         return owner;
     }
@@ -52,7 +53,7 @@ public class Pet {
     public void setOwner(Owner owner) {
         this.owner = owner;
     }
-
+    @JsonManagedReference
     public List<Visit> getVisits() {
         return visits;
     }

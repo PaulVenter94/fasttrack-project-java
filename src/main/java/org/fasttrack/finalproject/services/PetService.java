@@ -5,6 +5,7 @@ import org.fasttrack.finalproject.domain.Visit;
 import org.fasttrack.finalproject.repositories.PetRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -44,6 +45,22 @@ public class PetService {
     public void addVisit(int id, Visit visit) {
         Pet newPet = Objects.requireNonNull(petRepository.findById(id).orElse(null));
         newPet.addVisit(visit);
+        petRepository.save(newPet);
+    }
+
+    public void addVisit(int id, int year, int month, int day, int hour, int minutes) {
+        Pet newPet = Objects.requireNonNull(petRepository.findById(id).orElse(null));
+        newPet.addVisit(new Visit(LocalDateTime.of(year, month, day, hour, minutes), newPet));
+        petRepository.save(newPet);
+    }
+
+    public void addVisit(int id, String date) {
+        System.out.println(date);
+        String newDate=date.replaceAll("^\"|\"$","");
+        System.out.println(newDate);
+        Pet newPet = Objects.requireNonNull(petRepository.findById(id).orElse(null));
+        newPet.addVisit(new Visit(LocalDateTime.parse(newDate), newPet));
+
         petRepository.save(newPet);
     }
 }

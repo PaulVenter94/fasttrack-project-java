@@ -1,6 +1,7 @@
 package org.fasttrack.finalproject.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class Owner {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
+    @JsonManagedReference
     public List<Pet> getPets() {
         return pets;
     }

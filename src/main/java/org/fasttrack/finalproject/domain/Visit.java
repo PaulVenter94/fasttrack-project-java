@@ -1,5 +1,6 @@
 package org.fasttrack.finalproject.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -11,7 +12,7 @@ public class Visit {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private LocalDateTime dateTime;
-    @JsonIgnore
+    //@JsonIgnore
     @ManyToOne
     private Pet pet;
 
@@ -39,6 +40,7 @@ public class Visit {
         this.dateTime = dateTime;
     }
 
+    @JsonBackReference
     public Pet getPet() {
         return pet;
     }

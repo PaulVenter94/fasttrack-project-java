@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static java.lang.Integer.parseInt;
+
 @RestController
 @RequestMapping("pets")
 @CrossOrigin(origins = "http://localhost:4200")
@@ -34,5 +36,10 @@ public class PetController {
     @DeleteMapping
     public void deletePet(@RequestBody int id) {
         petService.deleteById(id);
+    }
+
+    @PostMapping("/{id}")
+    public void addVisit(@PathVariable Integer id, @RequestBody String date) {
+        petService.addVisit(id, date);
     }
 }
