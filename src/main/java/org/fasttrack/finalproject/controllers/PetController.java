@@ -4,6 +4,7 @@ import org.fasttrack.finalproject.domain.Pet;
 import org.fasttrack.finalproject.services.PetService;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static java.lang.Integer.parseInt;
@@ -39,7 +40,7 @@ public class PetController {
     }
 
     @PostMapping("/{id}")
-    public void addVisit(@PathVariable Integer id, @RequestBody String date) {
+    public void addVisit(@PathVariable Integer id, @RequestBody LocalDateTime date) {
         petService.addVisit(id, date);
     }
 }

@@ -54,12 +54,10 @@ public class PetService {
         petRepository.save(newPet);
     }
 
-    public void addVisit(int id, String date) {
-        System.out.println(date);
-        String newDate=date.replaceAll("^\"|\"$","");
-        System.out.println(newDate);
+    public void addVisit(int id, LocalDateTime date) {
+
         Pet newPet = Objects.requireNonNull(petRepository.findById(id).orElse(null));
-        newPet.addVisit(new Visit(LocalDateTime.parse(newDate), newPet));
+        newPet.addVisit(new Visit(date, newPet));
 
         petRepository.save(newPet);
     }

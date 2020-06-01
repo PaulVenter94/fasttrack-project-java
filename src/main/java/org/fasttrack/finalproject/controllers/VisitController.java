@@ -31,8 +31,8 @@ public class VisitController {
         return visitService.add(visit);
     }
 
-    @DeleteMapping
-    public void delete(@RequestBody int id) {
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable int id) {
         visitService.deleteById(id);
     }
 }

@@ -31,8 +31,8 @@ public class OwnerController {
         return ownerService.add(owner);
     }
 
-    @DeleteMapping("/owners")
-    public void delete(@RequestBody int id) {
+    @DeleteMapping("/owners/{id}")
+    public void delete(@PathVariable int id) {
         ownerService.deleteById(id);
     }
 
