@@ -5,9 +5,9 @@ import org.fasttrack.finalproject.domain.Pet;
 import org.fasttrack.finalproject.repositories.OwnerRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import javax.persistence.SecondaryTable;
+import java.time.LocalDate;
+import java.util.*;
 
 @Service
 public class OwnerService {
@@ -43,9 +43,24 @@ public class OwnerService {
 
     public void addPet(int id, Pet pet) {
         Owner newOwner = Objects.requireNonNull(ownerRepository.findById(id).orElse(null));
-        Pet newPet=pet;
-        newPet.setId(0);
+        pet.setId(0);
+        pet.setNewBirthDate(LocalDate.parse(pet.getBirthDate()));
         newOwner.addPet(pet);
         ownerRepository.save(newOwner);
+    }
+
+    public Owner editOwner(int id, Owner owner) {
+        Owner newOwner = ownerRepository.findById(id).orElse(null);
+        if (newOwner != null) {
+            newOwner.setFirstName(owner.getFirstName());
+            newOwner.setLastName(owner.getLastName());
+            ownerRepository.save(newOwner);
+        }
+        return newOwner;
+    }
+
+    public Set<Pet> getPets(int id) {
+        Set<Pet> res = new HashSet<>(ownerRepository.findById(id).get().getPets());
+        return res;
     }
 }

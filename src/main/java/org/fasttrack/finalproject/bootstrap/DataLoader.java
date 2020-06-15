@@ -11,6 +11,7 @@ import org.fasttrack.finalproject.services.VisitService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -42,11 +43,11 @@ public class DataLoader implements CommandLineRunner {
         ownerService.add(new Owner("Gerrard", "Pique"));
         System.out.println("Owners loaded");
 
-        ownerService.addPet(1, new Pet("Archibald"));
-        ownerService.addPet(2, new Pet("Glenn"));
-        ownerService.addPet(3, new Pet("Castron"));
-        ownerService.addPet(4, new Pet("Pennywise"));
-        ownerService.addPet(5, new Pet("Jason"));
+        ownerService.addPet(1, new Pet("Archibald", LocalDate.of(2008, 8, 20)));
+        ownerService.addPet(2, new Pet("Glenn", LocalDate.of(2016, 5, 12)));
+        ownerService.addPet(3, new Pet("Castron", LocalDate.of(2019, 8, 4)));
+        ownerService.addPet(4, new Pet("Pennywise", LocalDate.of(2018, 8, 20)));
+        ownerService.addPet(5, new Pet("Jason", LocalDate.of(2015, 6, 13)));
         System.out.println("Pets loaded");
 
         vetService.add(new Vet("Gregory", "Pol", 74, "Radiology"));
@@ -56,7 +57,7 @@ public class DataLoader implements CommandLineRunner {
         vetService.add(new Vet("John", "Cena", 34, "Dermatology"));
         System.out.println("Vets loaded");
 
-        petService.getAll().forEach(pet -> petService.addVisit(pet.getId(), new Visit(LocalDateTime.of(2020, 05, 12, 13,0), pet)));
+        petService.getAll().forEach(pet -> petService.addVisit(pet.getId(), new Visit(LocalDateTime.of(2020, 05, 12, 13, 0), pet)));
         System.out.println(petService.getAll());
         System.out.println(visitService.getAll());
         System.out.println("Visits Loaded");

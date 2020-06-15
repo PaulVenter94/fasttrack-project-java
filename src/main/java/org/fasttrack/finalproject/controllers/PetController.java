@@ -1,5 +1,6 @@
 package org.fasttrack.finalproject.controllers;
 
+import org.fasttrack.finalproject.domain.Owner;
 import org.fasttrack.finalproject.domain.Pet;
 import org.fasttrack.finalproject.services.PetService;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +41,12 @@ public class PetController {
     }
 
     @PostMapping("/{id}")
-    public void addVisit(@PathVariable Integer id, @RequestBody LocalDateTime date) {
+    public void addVisit(@PathVariable Integer id, @RequestBody String date) {
         petService.addVisit(id, date);
+    }
+
+    @PutMapping("/pets/{id}")
+    public void editPet(@PathVariable int id, @RequestBody Pet pet) {
+        petService.editPet(id, pet);
     }
 }

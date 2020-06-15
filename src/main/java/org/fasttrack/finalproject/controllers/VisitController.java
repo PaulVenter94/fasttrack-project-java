@@ -1,5 +1,6 @@
 package org.fasttrack.finalproject.controllers;
 
+import org.fasttrack.finalproject.domain.Owner;
 import org.fasttrack.finalproject.domain.Visit;
 import org.fasttrack.finalproject.services.VisitService;
 import org.springframework.web.bind.annotation.*;
@@ -34,5 +35,10 @@ public class VisitController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id) {
         visitService.deleteById(id);
+    }
+
+    @PutMapping("/visits/{id}")
+    public void editVisits(@PathVariable int id, @RequestBody Visit visit) {
+        visitService.editVisit(id, visit);
     }
 }

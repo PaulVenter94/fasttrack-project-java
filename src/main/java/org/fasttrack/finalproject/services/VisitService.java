@@ -26,12 +26,20 @@ public class VisitService {
     }
 
     public Visit add(Visit visit) {
-        Visit newVisit = visit;
-        newVisit.setId(0);
-        return visitRepository.save(newVisit);
+        visit.setId(0);
+        return visitRepository.save(visit);
     }
 
     public void deleteById(int id) {
         visitRepository.deleteById(id);
+    }
+
+    public Visit editVisit(int id, Visit visit) {
+        Visit newVisit = visitRepository.findById(id).orElse(null);
+        if (newVisit != null) {
+            newVisit.setDateTime(visit.getDateTime());
+            visitRepository.save(newVisit);
+        }
+        return newVisit;
     }
 }

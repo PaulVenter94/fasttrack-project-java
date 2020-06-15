@@ -1,21 +1,25 @@
 package org.fasttrack.finalproject.services;
 
+import org.fasttrack.finalproject.domain.Owner;
 import org.fasttrack.finalproject.domain.Pet;
 import org.fasttrack.finalproject.domain.Visit;
+import org.fasttrack.finalproject.repositories.OwnerRepository;
 import org.fasttrack.finalproject.repositories.PetRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Repository
+@Service
 public class PetService {
     private final PetRepository petRepository;
+    private final OwnerRepository ownerRepository;
 
-    public PetService(PetRepository petRepository) {
+    public PetService(PetRepository petRepository, OwnerRepository ownerRepository) {
         this.petRepository = petRepository;
+        this.ownerRepository = ownerRepository;
     }
 
     public List<Pet> getAll() {
@@ -44,6 +48,9 @@ public class PetService {
 
     public void addVisit(int id, Visit visit) {
         Pet newPet = Objects.requireNonNull(petRepository.findById(id).orElse(null));
+        Owner owner = Objects.requireNonNull(ownerRepository.findById(newPet.getOwner().getId()).orElse(null));
+        visit.setId(0);
+        visit.setPet(newPet);
         newPet.addVisit(visit);
         petRepository.save(newPet);
     }
@@ -54,11 +61,22 @@ public class PetService {
         petRepository.save(newPet);
     }
 
-    public void addVisit(int id, LocalDateTime date) {
-
-        Pet newPet = Objects.requireNonNull(petRepository.findById(id).orElse(null));
-        newPet.addVisit(new Visit(date, newPet));
-
-        petRepository.save(newPet);
+    public void addVisit(int id, String date) {
+        Pet pet = petRepository.findById(id).get();
+        LocalDateTime newDate = LocalDateTime.parse(date);
+        Visit visit = new Visit(newDate, pet);
+        visit.setId(0);
+        pet.addVisit(visit);
+        petRepository.save(pet);
     }
+
+    public Pet editPet(int id, Pet pet) {
+        Pet newPet = petRepository.findById(id).orElse(null);
+        if (newPet != null) {
+            newPet.setName(pet.getName());
+            petRepository.save(pet);
+        }
+        return newPet;
+    }
+
 }

@@ -31,7 +31,7 @@ public class VetService {
     }
 
     public Vet add(Vet vet) {
-        Vet newVet=vet;
+        Vet newVet = vet;
         newVet.setId(0);
         System.out.println(newVet);
         return vetRepository.save(newVet);
@@ -39,5 +39,15 @@ public class VetService {
 
     public void deleteById(int id) {
         vetRepository.deleteById(id);
+    }
+
+    public Vet editVet(int id, Vet vet) {
+        Vet newVet = vetRepository.findById(id).orElse(null);
+        if (newVet != null) {
+            newVet.setFirstName(vet.getFirstName());
+            newVet.setLastName(vet.getLastName());
+            vetRepository.save(newVet);
+        }
+        return newVet;
     }
 }

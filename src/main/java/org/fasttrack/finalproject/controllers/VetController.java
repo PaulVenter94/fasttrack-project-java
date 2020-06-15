@@ -35,4 +35,9 @@ public class VetController {
     public void deletePet(@RequestBody int id) {
         vetService.deleteById(id);
     }
+
+    @PutMapping("/vets/{id}")
+    public void editOwner(@PathVariable int id, @RequestBody Vet vet) {
+        vetService.editVet(id, vet);
+    }
 }
