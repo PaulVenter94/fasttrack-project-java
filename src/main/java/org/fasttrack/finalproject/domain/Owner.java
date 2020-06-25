@@ -12,11 +12,10 @@ import java.util.stream.Collectors;
 public class Owner {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "owner_id")
     private Integer id;
     private String firstName;
     private String lastName;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "owner")
-    private List<Pet> pets = new ArrayList<>();
 
     public Owner() {
     }
@@ -49,7 +48,7 @@ public class Owner {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-    @JsonManagedReference
+   /* @JsonManagedReference
     public List<Pet> getPets() {
         return pets;
     }
@@ -61,7 +60,7 @@ public class Owner {
     public void addPet(Pet pet) {
         pets.add(pet);
         pet.setOwner(this);
-    }
+    }*/
 
     @Override
     public boolean equals(Object o) {
@@ -72,8 +71,7 @@ public class Owner {
 
         if (id != null ? !id.equals(owner.id) : owner.id != null) return false;
         if (firstName != null ? !firstName.equals(owner.firstName) : owner.firstName != null) return false;
-        if (lastName != null ? !lastName.equals(owner.lastName) : owner.lastName != null) return false;
-        return pets != null ? pets.equals(owner.pets) : owner.pets == null;
+        return lastName != null ? lastName.equals(owner.lastName) : owner.lastName == null;
     }
 
     @Override
@@ -81,7 +79,6 @@ public class Owner {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + (pets != null ? pets.hashCode() : 0);
         return result;
     }
 
@@ -91,9 +88,6 @@ public class Owner {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", pets=" + pets.stream()
-                .map(Pet::getName)
-                .collect(Collectors.toList()) +
                 '}';
     }
 }

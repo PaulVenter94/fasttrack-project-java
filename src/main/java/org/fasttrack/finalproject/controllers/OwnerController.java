@@ -6,7 +6,6 @@ import org.fasttrack.finalproject.services.OwnerService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -43,13 +42,8 @@ public class OwnerController {
     }
 
     @PutMapping("/owners/{id}")
-    public void editOwner(@PathVariable int id, @RequestBody Owner owner) {
-        ownerService.editOwner(id, owner);
-    }
-
-    @GetMapping("/owners/{id}/pets")
-    public Set<Pet> getPets(@PathVariable int id) {
-        return ownerService.getPets(id);
+    public Owner editOwner(@PathVariable int id, @RequestBody Owner owner) {
+        return ownerService.editOwner(id, owner);
     }
 
 }

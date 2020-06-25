@@ -1,6 +1,5 @@
 package org.fasttrack.finalproject.controllers;
 
-import org.fasttrack.finalproject.domain.Owner;
 import org.fasttrack.finalproject.domain.Visit;
 import org.fasttrack.finalproject.services.VisitService;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +17,8 @@ public class VisitController {
     }
 
     @GetMapping
-    public List<Visit> getOwners() {
-        return visitService.getAll();
+    public List<Visit> getOwners(@RequestParam(required = false) Integer petId) {
+        return petId == null ? visitService.getAll() : visitService.getVisits(petId);
     }
 
     @GetMapping("/{id}")

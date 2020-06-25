@@ -41,14 +41,19 @@ public class DataLoader implements CommandLineRunner {
         ownerService.add(new Owner("Ousmane", "Dembele"));
         ownerService.add(new Owner("Luis", "Suarez"));
         ownerService.add(new Owner("Gerrard", "Pique"));
+        ownerService.getAll().forEach(System.out::println);
         System.out.println("Owners loaded");
 
-        ownerService.addPet(1, new Pet("Archibald", LocalDate.of(2008, 8, 20)));
-        ownerService.addPet(2, new Pet("Glenn", LocalDate.of(2016, 5, 12)));
-        ownerService.addPet(3, new Pet("Castron", LocalDate.of(2019, 8, 4)));
-        ownerService.addPet(4, new Pet("Pennywise", LocalDate.of(2018, 8, 20)));
-        ownerService.addPet(5, new Pet("Jason", LocalDate.of(2015, 6, 13)));
+        petService.add(new Pet("Archibald", LocalDate.of(2008, 8, 20), ownerService.getById(1)));
+        petService.add(new Pet("Glenn", LocalDate.of(2016, 5, 12), ownerService.getById(2)));
+        petService.add(new Pet("Castron", LocalDate.of(2019, 8, 4), ownerService.getById(3)));
+        petService.add(new Pet("Pennywise", LocalDate.of(2018, 8, 20), ownerService.getById(4)));
+        petService.add(new Pet("Jason", LocalDate.of(2015, 6, 13), ownerService.getById(5)));
+        petService.add(new Pet("Fredi Kruger", LocalDate.of(2015, 6, 13), ownerService.getById(5)));
+        petService.getById(7).setOwner(ownerService.getById(1));
+        petService.getAll().forEach(System.out::println);
         System.out.println("Pets loaded");
+
 
         vetService.add(new Vet("Gregory", "Pol", 74, "Radiology"));
         vetService.add(new Vet("Laris", "Jurcut", 21, null));
@@ -61,8 +66,6 @@ public class DataLoader implements CommandLineRunner {
         System.out.println(petService.getAll());
         System.out.println(visitService.getAll());
         System.out.println("Visits Loaded");
-        System.out.println(petService.getAll().stream()
-                .map(Pet::getVisits)
-                .collect(Collectors.toList()));
+
     }
 }

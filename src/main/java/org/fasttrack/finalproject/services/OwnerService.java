@@ -3,18 +3,21 @@ package org.fasttrack.finalproject.services;
 import org.fasttrack.finalproject.domain.Owner;
 import org.fasttrack.finalproject.domain.Pet;
 import org.fasttrack.finalproject.repositories.OwnerRepository;
+import org.fasttrack.finalproject.repositories.PetRepository;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.SecondaryTable;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class OwnerService {
     private final OwnerRepository ownerRepository;
+    private final PetRepository petRepository;
 
-    public OwnerService(OwnerRepository ownerRepository) {
+    public OwnerService(OwnerRepository ownerRepository, PetRepository petRepository) {
         this.ownerRepository = ownerRepository;
+        this.petRepository = petRepository;
     }
 
     public List<Owner> getAll() {
@@ -32,9 +35,8 @@ public class OwnerService {
     }
 
     public Owner add(Owner owner) {
-        Owner newOwner = owner;
-        newOwner.setId(0);
-        return ownerRepository.save(newOwner);
+        owner.setId(0);
+        return ownerRepository.save(owner);
     }
 
     public void deleteById(int id) {
@@ -42,11 +44,10 @@ public class OwnerService {
     }
 
     public void addPet(int id, Pet pet) {
-        Owner newOwner = Objects.requireNonNull(ownerRepository.findById(id).orElse(null));
         pet.setId(0);
+        pet.setOwner(ownerRepository.findById(id).get());
         pet.setNewBirthDate(LocalDate.parse(pet.getBirthDate()));
-        newOwner.addPet(pet);
-        ownerRepository.save(newOwner);
+        petRepository.save(pet);
     }
 
     public Owner editOwner(int id, Owner owner) {
@@ -59,8 +60,4 @@ public class OwnerService {
         return newOwner;
     }
 
-    public Set<Pet> getPets(int id) {
-        Set<Pet> res = new HashSet<>(ownerRepository.findById(id).get().getPets());
-        return res;
-    }
 }

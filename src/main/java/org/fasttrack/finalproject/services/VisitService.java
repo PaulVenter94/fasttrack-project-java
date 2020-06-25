@@ -42,4 +42,8 @@ public class VisitService {
         }
         return newVisit;
     }
+
+    public List<Visit> getVisits(Integer petId) {
+        return visitRepository.findByPet_Id(petId);
+    }
 }

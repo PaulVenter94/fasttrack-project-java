@@ -1,14 +1,11 @@
 package org.fasttrack.finalproject.controllers;
 
-import org.fasttrack.finalproject.domain.Owner;
 import org.fasttrack.finalproject.domain.Pet;
+import org.fasttrack.finalproject.domain.Visit;
 import org.fasttrack.finalproject.services.PetService;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
-
-import static java.lang.Integer.parseInt;
 
 @RestController
 @RequestMapping("pets")
@@ -21,8 +18,8 @@ public class PetController {
     }
 
     @GetMapping
-    public List<Pet> getAll() {
-        return petService.getAll();
+    public List<Pet> getAll(@RequestParam(required = false) Integer ownerId) {
+        return ownerId == null ? petService.getAll() : petService.getByOwnerId(ownerId);
     }
 
     @GetMapping("/{id}")
@@ -35,8 +32,8 @@ public class PetController {
         return petService.add(pet);
     }
 
-    @DeleteMapping
-    public void deletePet(@RequestBody int id) {
+    @DeleteMapping("/{id}")
+    public void deletePet(@PathVariable Integer id) {
         petService.deleteById(id);
     }
 
@@ -45,8 +42,13 @@ public class PetController {
         petService.addVisit(id, date);
     }
 
-    @PutMapping("/pets/{id}")
-    public void editPet(@PathVariable int id, @RequestBody Pet pet) {
-        petService.editPet(id, pet);
+    @PutMapping("{id}")
+    public Pet editPet(@PathVariable int id, @RequestBody Pet pet) {
+        return petService.editPet(id, pet);
+    }
+
+    @GetMapping("{id}/visits")
+    public List<Visit> getVisits(@PathVariable int id) {
+        return petService.getVisits(id);
     }
 }

@@ -1,6 +1,8 @@
 package org.fasttrack.finalproject.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,7 +13,9 @@ public class Visit {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private LocalDateTime dateTime;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "PET_ID", referencedColumnName = "pet_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Pet pet;
     private String description;
     private String treatment;
@@ -40,7 +44,6 @@ public class Visit {
         this.dateTime = dateTime;
     }
 
-    @JsonBackReference
     public Pet getPet() {
         return pet;
     }
@@ -73,4 +76,5 @@ public class Visit {
     public void setTreatment(String treatment) {
         this.treatment = treatment;
     }
+
 }
