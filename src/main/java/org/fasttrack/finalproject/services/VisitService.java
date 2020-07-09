@@ -4,8 +4,11 @@ import org.fasttrack.finalproject.domain.Visit;
 import org.fasttrack.finalproject.repositories.VisitRepository;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class VisitService {
@@ -45,5 +48,24 @@ public class VisitService {
 
     public List<Visit> getVisits(Integer petId) {
         return visitRepository.findByPet_Id(petId);
+    }
+
+    public Visit updateVisit(int id, String string) {
+        Map<String, String> bodyUpdate = new HashMap();
+        String[] strings = string.split(",");
+        bodyUpdate.put(strings[0], strings[1]);
+        Visit visit = visitRepository.findById(id).orElseThrow(() -> new RuntimeException("Visit with id: " + id + "does not exist"));
+        Class visitClass = visit.getClass();
+        bodyUpdate.keySet().forEach(f -> {
+                    try {
+                        Field field = visitClass.getDeclaredField(f);
+                        field.setAccessible(true);
+                        field.set(visit, bodyUpdate.get(f));
+                    } catch (NoSuchFieldException | IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
+        );
+        return visitRepository.save(visit);
     }
 }

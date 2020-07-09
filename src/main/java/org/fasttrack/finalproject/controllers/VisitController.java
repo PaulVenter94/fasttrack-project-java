@@ -5,10 +5,11 @@ import org.fasttrack.finalproject.services.VisitService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("visits")
-@CrossOrigin(origins = "http://localhost:4200")
 public class VisitController {
     private final VisitService visitService;
 
@@ -36,8 +37,13 @@ public class VisitController {
         visitService.deleteById(id);
     }
 
-    @PutMapping("/visits/{id}")
-    public void editVisits(@PathVariable int id, @RequestBody Visit visit) {
-        visitService.editVisit(id, visit);
+//    @PutMapping("/{id}")
+//    public void editVisits(@PathVariable int id, @RequestBody Visit visit) {
+//        visitService.editVisit(id, visit);
+//    }
+
+    @PutMapping("/{id}")
+    public Visit updateVisits(@PathVariable int id, @RequestBody String bodyUpdate) {
+       return visitService.updateVisit(id, bodyUpdate);
     }
 }

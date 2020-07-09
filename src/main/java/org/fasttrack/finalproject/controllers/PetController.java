@@ -20,7 +20,7 @@ public class PetController {
     @GetMapping
     public List<Pet> getAll(@RequestParam(required = false) Integer ownerId) {
         return ownerId == null ? petService.getAll() : petService.getByOwnerId(ownerId);
-    }
+    }   
 
     @GetMapping("/{id}")
     public Pet getById(@PathVariable int id) {
@@ -47,8 +47,4 @@ public class PetController {
         return petService.editPet(id, pet);
     }
 
-    @GetMapping("{id}/visits")
-    public List<Visit> getVisits(@PathVariable int id) {
-        return petService.getVisits(id);
-    }
 }
